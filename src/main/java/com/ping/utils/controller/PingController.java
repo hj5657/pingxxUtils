@@ -1,6 +1,5 @@
 package com.ping.utils.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ping.utils.service.PingService;
 import com.pingplusplus.exception.PingppException;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +19,7 @@ public class PingController {
 
   @GetMapping("/ping-serial-id")
   public String getPingSerialIdByApi(@RequestParam(value = "orderId") String orderId)
-      throws PingppException, JsonProcessingException {
+      throws PingppException {
     return pingService.getPingSerialId(orderId);
   }
 }
