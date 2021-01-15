@@ -27,7 +27,7 @@ public class PingService {
     chargeParams.put("app[id]", appId);
     ChargeCollection chargeList = Charge.list(chargeParams);
     for (Charge item : chargeList.getData()) {
-      String orderId = item.getBody().split(" ")[1].substring(0, 9);
+      String orderId = item.getBody().split(" ")[1];
       if (orderId.equals(requestOrderId)) {
         return item.getId();
       }
