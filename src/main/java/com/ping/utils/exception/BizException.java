@@ -13,16 +13,6 @@ public class BizException extends RuntimeException {
   private String message;
   private Object errorDetail;
 
-  public BizException(BizError error) {
-    this.code = error.getCode();
-    this.message = error.getMessage();
-  }
-
-  public BizException(HttpStatus httpStatus, BizError error) {
-    this.httpStatus = httpStatus;
-    this.code = error.getCode();
-    this.message = error.getMessage();
-  }
 
   public BizException(HttpStatus httpStatus, BizError error, Object... messageParams) {
     this.httpStatus = httpStatus;
@@ -30,13 +20,6 @@ public class BizException extends RuntimeException {
     this.message = String.format(error.getMessage(), messageParams);
   }
 
-  public BizException(HttpStatus httpStatus, Object errorDetail, BizError error,
-      Object... messageParams) {
-    this.httpStatus = httpStatus;
-    this.code = error.getCode();
-    this.errorDetail = errorDetail;
-    this.message = String.format(error.getMessage(), messageParams);
-  }
 
   public BizException(BizError error, Object... messageParams) {
     this.code = error.getCode();
