@@ -3,6 +3,8 @@ package com.ping.utils.service;
 import static com.pingplusplus.Pingpp.apiKey;
 
 import com.ping.utils.config.PingxxProperties;
+import com.ping.utils.exception.BizError;
+import com.ping.utils.exception.BizException;
 import com.ping.utils.model.ChargeIdResponse;
 import com.ping.utils.model.OrderIdRequest;
 import com.pingplusplus.Pingpp;
@@ -11,6 +13,7 @@ import com.pingplusplus.model.Charge;
 import com.pingplusplus.model.ChargeCollection;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,14 +26,18 @@ public class PingService {
     this.pingxxProperties = pingxxProperties;
   }
 
-  public ChargeIdResponse getPingChargeId(OrderIdRequest request)
-      throws PingppException {
+  public ChargeIdResponse getPingChargeId(OrderIdRequest request) {
     Pingpp.privateKeyPath = privateKeyFilePath;
     apiKey = pingxxProperties.getApiKey();
     Map<String, Object> chargeParams = new HashMap<>();
     chargeParams.put("limit", pingxxProperties.getLimit());
     chargeParams.put("app[id]", pingxxProperties.getAppId());
-    ChargeCollection chargeList = Charge.list(chargeParams);
+    ChargeCollection chargeList;
+    try {
+      chargeList = Charge.list(chargeParams);
+    } catch (PingppException e) {
+      throw new BizException(BizError.PING_SERVER_ERROR, e.getMessage());
+    }
     for (Charge item : chargeList.getData()) {
       if (item.getOrderNo().startsWith(request.getOrderId())) {
         String firstMatchChargeId = item.getId();
@@ -38,6 +45,7 @@ public class PingService {
             .build();
       }
     }
-    throw new IllegalArgumentException();
+    throw new BizException(HttpStatus.NOT_FOUND, BizError.CHARGE_ID_NOT_FOUND_BY_ORDER_ID,
+        request.getOrderId());
   }
 }

@@ -3,7 +3,6 @@ package com.ping.utils.controller;
 import com.ping.utils.model.ChargeIdResponse;
 import com.ping.utils.model.OrderIdRequest;
 import com.ping.utils.service.PingService;
-import com.pingplusplus.exception.PingppException;
 import javax.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,8 +20,7 @@ public class PingController {
   }
 
   @GetMapping("/ping-serial-id")
-  public ChargeIdResponse getPingSerialIdByApi(@RequestBody @Valid OrderIdRequest request)
-      throws PingppException {
+  public ChargeIdResponse getPingSerialIdByApi(@RequestBody @Valid OrderIdRequest request) {
     return pingService.getPingChargeId(request);
   }
 }
