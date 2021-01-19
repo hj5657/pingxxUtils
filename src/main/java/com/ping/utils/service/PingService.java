@@ -3,6 +3,8 @@ package com.ping.utils.service;
 import static com.pingplusplus.Pingpp.apiKey;
 
 import com.ping.utils.config.PingxxProperties;
+import com.ping.utils.model.ChargeIdResponse;
+import com.ping.utils.model.OrderIdRequest;
 import com.pingplusplus.Pingpp;
 import com.pingplusplus.exception.PingppException;
 import com.pingplusplus.model.Charge;
@@ -21,7 +23,7 @@ public class PingService {
     this.pingxxProperties = pingxxProperties;
   }
 
-  public String getPingSerialId(String requestOrderId)
+  public ChargeIdResponse getPingChargeId(OrderIdRequest request)
       throws PingppException {
     Pingpp.privateKeyPath = privateKeyFilePath;
     apiKey = pingxxProperties.getApiKey();
@@ -30,10 +32,12 @@ public class PingService {
     chargeParams.put("app[id]", pingxxProperties.getAppId());
     ChargeCollection chargeList = Charge.list(chargeParams);
     for (Charge item : chargeList.getData()) {
-      if (item.getOrderNo().startsWith(requestOrderId)) {
-        return item.getId();
+      if (item.getOrderNo().startsWith(request.getOrderId())) {
+        String firstMatchChargeId = item.getId();
+        return ChargeIdResponse.builder().chargeId(firstMatchChargeId)
+            .build();
       }
     }
-    return "sorry, do not find for request order id:" + requestOrderId;
+    throw new IllegalArgumentException();
   }
 }

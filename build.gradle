@@ -11,12 +11,13 @@ sourceCompatibility = '1.8'
 repositories {
     mavenCentral()
     maven {
-        url  "https://jcenter.bintray.com"
+        url "https://jcenter.bintray.com"
     }
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     compile 'Pingplusplus:pingpp-java:2.4.0'
     //lombok
