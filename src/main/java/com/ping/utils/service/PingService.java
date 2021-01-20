@@ -1,7 +1,5 @@
 package com.ping.utils.service;
 
-import static com.pingplusplus.Pingpp.apiKey;
-
 import com.ping.utils.config.PingxxProperties;
 import com.ping.utils.exception.BizError;
 import com.ping.utils.exception.BizException;
@@ -27,7 +25,7 @@ public class PingService {
 
   public ChargeIdResponse getPingChargeId(OrderIdRequest request) {
     Pingpp.privateKeyPath = pingxxProperties.getPrivateKeyFilePath();
-    apiKey = pingxxProperties.getApiKey();
+    Pingpp.apiKey = pingxxProperties.getApiKey();
     Map<String, Object> chargeParams = new HashMap<>();
     chargeParams.put("limit", pingxxProperties.getLimit());
     chargeParams.put("app[id]", pingxxProperties.getAppId());
