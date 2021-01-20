@@ -14,4 +14,6 @@ public class PingxxProperties {
   private String appId;
   @Value("${pingApp.limit:100}")
   private Integer limit;
+  @Value("${pingApp.privateKeyFilePath}")
+  private String privateKeyFilePath;
 }

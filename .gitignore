@@ -39,3 +39,4 @@ out/
 ### Config ###
 application.properties
 ping-key.pem
+Dockerfile

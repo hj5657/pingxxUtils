@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class PingService {
 
-  private final static String privateKeyFilePath = "src/main/resources/ping-key.pem";
   private final PingxxProperties pingxxProperties;
 
   public PingService(PingxxProperties pingxxProperties) {
@@ -27,7 +26,7 @@ public class PingService {
   }
 
   public ChargeIdResponse getPingChargeId(OrderIdRequest request) {
-    Pingpp.privateKeyPath = privateKeyFilePath;
+    Pingpp.privateKeyPath = pingxxProperties.getPrivateKeyFilePath();
     apiKey = pingxxProperties.getApiKey();
     Map<String, Object> chargeParams = new HashMap<>();
     chargeParams.put("limit", pingxxProperties.getLimit());
